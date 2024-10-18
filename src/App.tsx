@@ -9,13 +9,20 @@ const posts = [
 ];
 
 function App() {
-
+  console.log(posts);
   const postsQuery = useQuery(
     {
       queryKey: ["posts"],
       queryFn: () => wait(1000).then(() => [...posts])
     }
   )
+
+  const mutationQuery = useMutation({
+    mutationFn: (title: string) => {
+      return wait(1000).then(() => posts.push({ id: parseInt(crypto.randomUUID()), title })
+      )
+    },
+  });
 
   console.log(postsQuery);
 
@@ -25,7 +32,9 @@ function App() {
   return (
     <div>{postsQuery.data?.map((post) => (
       <div key={post.id}>{post.title}</div>
-    ))}</div>
+    ))}
+      <button type="button" onClick={() => mutationQuery.mutate("prova 2")}>click</button>
+    </div>
   )
 }
 
