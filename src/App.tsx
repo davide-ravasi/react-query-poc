@@ -10,10 +10,20 @@ const posts = [
 
 function App() {
   const queryClient = useQueryClient();
+
+  // how to create the query key fr this kings of endpoint?
+  // /posts -> ["posts"]
+  // /posts/1 -> ["posts", post.id]
+  // /posts?authorId=1 -> ["posts", { authorId: 1 }]
+  // /posts/2/comments -> ["posts", post.id, "comments"]
   const postsQuery = useQuery(
     {
       queryKey: ["posts"],
-      queryFn: () => wait(1000).then(() => [...posts])
+      queryFn: (obj) => {
+        // the query obj returns a set of value useful as a qeryKey, the params
+        console.log(obj);
+        return wait(1000).then(() => [...posts])
+      }
     }
   )
 
