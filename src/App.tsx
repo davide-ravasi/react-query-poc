@@ -1,5 +1,5 @@
 import './App.css'
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const posts = [
   { id: 1, title: "Getting Started with React" },
@@ -9,7 +9,7 @@ const posts = [
 ];
 
 function App() {
-  console.log(posts);
+  const queryClient = useQueryClient();
   const postsQuery = useQuery(
     {
       queryKey: ["posts"],
@@ -22,6 +22,7 @@ function App() {
       return wait(1000).then(() => posts.push({ id: parseInt(crypto.randomUUID()), title })
       )
     },
+    onSuccess: () => queryClient.invalidateQueries(["posts"])
   });
 
   console.log(postsQuery);
@@ -33,7 +34,7 @@ function App() {
     <div>{postsQuery.data?.map((post) => (
       <div key={post.id}>{post.title}</div>
     ))}
-      <button type="button" onClick={() => mutationQuery.mutate("prova 2")}>click</button>
+      <button disabled={mutationQuery.isPending} type="button" onClick={() => mutationQuery.mutate("prova 2")}>click</button>
     </div>
   )
 }
