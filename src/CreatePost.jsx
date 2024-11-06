@@ -7,12 +7,27 @@ export function CreatePost({ setCurrentPage }) {
   const titleRef = useRef();
   const bodyRef = useRef();
   const queryClient = useQueryClient();
+  // mutation don't retry by default
   const createPostMutation = useMutation({
+    // all vars are passed directly to the function
     mutationFn: createPost,
+    // parameters we can pass are:
+    // (data, variables, context)
     onSuccess: (data) => {
       queryClient.setQueryData(["posts", data.id], data);
+      // useful to invalidate immediately the query
+      // and to refresh the list
+      // exact: true to invalidate the query with this key exactly
       queryClient.invalidateQueries(["posts"], { exact: true });
       setCurrentPage(<Post id={data.id} />);
+    },
+    //onError: (error, variables, context) => {}
+    // this is like finally in promises
+    //onSettled: (data, error, variables, context) => {}
+    // executed before the mutationFn
+    // useful for example to pass something in a context or to do something before mutation executes
+    onMutate: (variables) => {
+      return { hi: "hi" };
     },
   });
 
