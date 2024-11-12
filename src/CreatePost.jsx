@@ -8,6 +8,7 @@ export function CreatePost({ setCurrentPage }) {
   const bodyRef = useRef();
   const queryClient = useQueryClient();
   // mutation don't retry by default
+  // to avoid create the same post multiple times
   const createPostMutation = useMutation({
     // all vars are passed directly to the function
     mutationFn: createPost,

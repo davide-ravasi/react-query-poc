@@ -87,14 +87,14 @@ USE QUERY KEY - how it works
 STATUS AND FETCH STATUS
 The status of the query.
 Will be:
-pending if there's no cached data and no query attempt was finished yet.
-error if the query attempt resulted in an error.
-success if the query has received a response with no errors and is ready to display its data. The status of the query.
+PENDING if there's no cached data and no query attempt was finished yet.
+ERROR if the query attempt resulted in an error.
+SUCCESS if the query has received a response with no errors and is ready to display its data. The status of the query.
 
 The fetch status of the query.
-fetching: Is true whenever the queryFn is executing, which includes initial pending as well as background refetch.
-paused: The query wanted to fetch, but has been paused.
-idle: The query is not fetching.
+FETCHING: Is true whenever the queryFn is executing, which includes initial pending as well as background refetch.
+PAUSED: The query wanted to fetch, but has been paused.
+IDLE: The query is not fetching.
 See Network Mode for more information.
 
 REACT QUERY VS AXIOS OR FETCH
