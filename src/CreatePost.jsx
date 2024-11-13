@@ -15,10 +15,16 @@ export function CreatePost({ setCurrentPage }) {
     // parameters we can pass are:
     // (data, variables, context)
     onSuccess: (data) => {
+      // we can update the cache manually
+      // we can pass the key and the data
+      // so when we visit the post page
+      // the post is already in the
+      // cache and we don't need to fetch it
       queryClient.setQueryData(["posts", data.id], data);
       // useful to invalidate immediately the query
       // and to refresh the list
       // exact: true to invalidate the query with this key exactly
+      // and not with the key that starts with this key
       queryClient.invalidateQueries(["posts"], { exact: true });
       setCurrentPage(<Post id={data.id} />);
     },
@@ -27,9 +33,9 @@ export function CreatePost({ setCurrentPage }) {
     //onSettled: (data, error, variables, context) => {}
     // executed before the mutationFn
     // useful for example to pass something in a context or to do something before mutation executes
-    onMutate: (variables) => {
-      return { hi: "hi" };
-    },
+    // onMutate: (variables) => {
+    //   return { hi: "hi" };
+    // },
   });
 
   function handleSubmit(e) {
@@ -60,3 +66,14 @@ export function CreatePost({ setCurrentPage }) {
     </div>
   );
 }
+
+/*
+the mutation has differents states:
+- idle: the mutation is idle
+- loading: the mutation is loading
+- success: the mutation has succeeded
+
+the mutate method is the one that triggers the mutation
+it can be called with the variables of the mutation
+
+*/
